@@ -40,3 +40,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local sqlite database (libSQL/Turso file store)
+/data/*.db
+/data/*.db-shm
+/data/*.db-wal
+
+# playwright + screenshot artifacts
+/.playwright-mcp
+/home-*.png

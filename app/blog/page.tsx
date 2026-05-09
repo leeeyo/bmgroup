@@ -7,14 +7,14 @@ import { blogArticles, siteUrl } from "@/lib/blog";
 export const metadata: Metadata = {
   title: "Journal | BM Group",
   description:
-    "Actualités BM Group: bois haut de gamme, construction, rénovation, immobilier et vie du groupe.",
+    "Actualités BM Group: construction, rénovation, immobilier, agencement haut de gamme et vie du groupe.",
   alternates: {
     canonical: `${siteUrl}/blog`,
   },
   openGraph: {
     title: "Journal | BM Group",
     description:
-      "Découvrez les actualités et coulisses de BM Wood, BM Entreprise et IBM.",
+      "Découvrez les actualités et coulisses de EBM, BM Wood et IBM.",
     url: `${siteUrl}/blog`,
     siteName: "BM Group",
     locale: "fr_FR",
@@ -62,13 +62,13 @@ export default function BlogPage() {
               href={`/blog/${article.slug}`}
               className="group flex flex-col overflow-hidden rounded-sm border border-foreground/10 bg-background shadow-[0_12px_40px_rgba(22,23,18,0.06)] transition hover:border-deep-green/20 hover:shadow-[0_22px_56px_rgba(22,23,18,0.1)]"
             >
-              <div className="relative aspect-3/2 w-full shrink-0 overflow-hidden bg-stone">
+              <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden bg-stone">
                 <Image
                   src={article.image}
                   alt={article.imageAlt}
                   fill
                   sizes="(max-width: 768px) 100vw, 30vw"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
               <div className="flex flex-col gap-4 border-t border-foreground/10 px-5 py-5 sm:px-6 sm:py-6">

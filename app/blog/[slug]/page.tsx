@@ -137,16 +137,15 @@ export default async function BlogPostPage({ params }: BlogPostProps) {
         </section>
 
         <section className="px-4 sm:px-8 lg:px-14">
-          <div className="relative mx-auto min-h-112 max-w-7xl overflow-hidden bg-deep-green shadow-[0_34px_90px_rgba(16,37,31,0.2)]">
+          <div className="relative mx-auto aspect-[16/10] w-full max-w-5xl overflow-hidden bg-stone shadow-[0_34px_90px_rgba(16,37,31,0.18)]">
             <Image
               src={article.image}
               alt={article.imageAlt}
               fill
               priority
-              sizes="(max-width: 1024px) 100vw, 1200px"
-              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 960px"
+              className="object-contain"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-[#08110d]/40 to-transparent" />
           </div>
         </section>
 
@@ -154,7 +153,7 @@ export default async function BlogPostPage({ params }: BlogPostProps) {
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.35fr_0.65fr]">
             <aside className="border-t border-gold/60 pt-6">
               <p className="text-xs font-bold uppercase tracking-[0.28em] text-ink-soft">
-                BM Wood · BM Entreprise · IBM
+                EBM · BM Wood · IBM
               </p>
             </aside>
             <div className="space-y-7 font-serif text-3xl leading-[1.15] tracking-[-0.03em] text-deep-green sm:text-4xl">

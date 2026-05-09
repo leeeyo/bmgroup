@@ -33,11 +33,81 @@ body {
   color: var(--background);
 }
 
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.section-mark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--gold);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.section-mark::before,
+.section-mark::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(181, 148, 91, 0.5) 50%,
+    transparent 100%
+  );
+}
+
 .architectural-grid {
   background-image:
     linear-gradient(rgba(16, 37, 31, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(16, 37, 31, 0.08) 1px, transparent 1px);
   background-size: 72px 72px;
+}
+
+.editorial-mesh {
+  position: relative;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(60rem 32rem at 8% 4%, rgba(181, 148, 91, 0.14), transparent 60%),
+    radial-gradient(48rem 28rem at 100% 28%, rgba(16, 37, 31, 0.10), transparent 65%),
+    radial-gradient(36rem 22rem at 78% 110%, rgba(181, 148, 91, 0.10), transparent 65%),
+    linear-gradient(180deg, rgba(231, 226, 215, 0.35) 0%, transparent 35%);
+}
+
+.editorial-mesh::after {
+  pointer-events: none;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 37, 31, 0.12) 18%,
+    rgba(181, 148, 91, 0.45) 50%,
+    rgba(16, 37, 31, 0.12) 82%,
+    transparent 100%
+  );
 }
 
 .fine-noise {
@@ -49,11 +119,11 @@ body {
   position: absolute;
   inset: 0;
   content: "";
-  opacity: 0.32;
+  opacity: 0.55;
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(181, 148, 91, 0.14), transparent 24rem),
-    radial-gradient(circle at 85% 18%, rgba(16, 37, 31, 0.12), transparent 28rem),
-    linear-gradient(120deg, rgba(255, 255, 255, 0.75), transparent 45%);
+    radial-gradient(circle at 22% 12%, rgba(181, 148, 91, 0.12), transparent 26rem),
+    radial-gradient(circle at 88% 22%, rgba(16, 37, 31, 0.08), transparent 30rem),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.55), transparent 55%);
 }
 
 .hero-mark {

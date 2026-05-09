@@ -24,27 +24,28 @@ export const metadata: Metadata = {
   ...(googleSiteVerification
     ? { verification: { google: googleSiteVerification } }
     : {}),
-  title: "BM Group | Bois, construction et immobilier d'exception",
+  title: "BM Group | Construction, immobilier et agencement d'exception",
   description:
-    "BM Group réunit BM Wood, BM Entreprise et IBM autour d'une même exigence: concevoir, bâtir et valoriser des projets durables au Maroc.",
+    "BM Group réunit EBM, BM Wood et IBM autour d'une même exigence: bâtir, agencer et valoriser des projets durables en Tunisie.",
   applicationName: "BM Group",
   keywords: [
     "BM Group",
+    "EBM",
     "BM Wood",
-    "BM Entreprise",
     "IBM immobilier",
-    "mobilier haut de gamme",
     "construction",
     "rénovation",
+    "agencement sur mesure",
+    "mobilier haut de gamme",
     "promotion immobilière",
   ],
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "BM Group | Bois, construction et immobilier d'exception",
+    title: "BM Group | Construction, immobilier et agencement d'exception",
     description:
-      "Bois haut de gamme, construction, rénovation et développement immobilier réunis dans un groupe premium.",
+      "Construction, rénovation, développement immobilier et agencement sur mesure réunis dans un groupe premium.",
     url: siteUrl,
     siteName: "BM Group",
     locale: "fr_FR",
@@ -58,9 +59,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BM Group | Bois, construction et immobilier d'exception",
+    title: "BM Group | Construction, immobilier et agencement d'exception",
     description:
-      "BM Group réunit BM Wood, BM Entreprise et IBM autour d'une même exigence premium.",
+      "BM Group réunit EBM, BM Wood et IBM autour d'une même exigence premium.",
     images: ["/blog/blog-3.png"],
   },
   robots: {
@@ -79,6 +80,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
+      data-scroll-behavior="smooth"
       className={`${manrope.variable} ${cormorant.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col">
