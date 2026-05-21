@@ -34,8 +34,9 @@ export const contactSchema = z.object({
     .trim()
     .min(10, "Décrivez votre projet en quelques mots (10 caractères minimum).")
     .max(4000, "Message trop long."),
-  // Honeypot: must be empty if present.
-  company_url: z.string().max(0).optional().or(z.literal("")),
+  // Honeypot: bots fill it; the route silently discards. Not validated here so
+  // schema failure can't reveal the field's purpose.
+  company_url: z.string().max(200).optional(),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

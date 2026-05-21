@@ -11,7 +11,7 @@ export type BlogArticle = {
   content: string[];
 };
 
-export const siteUrl = "https://bmgroup.ma";
+export const siteUrl = "https://bmgroup.tn";
 
 export const blogArticles: BlogArticle[] = [
   {

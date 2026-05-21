@@ -52,8 +52,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/blog/blog-3.png",
-        alt: "BM Group",
+        url: "/hero/hero.png",
+        width: 1200,
+        height: 630,
+        alt: "BM Group — Construction, immobilier et agencement d'exception",
       },
     ],
   },
@@ -62,7 +64,7 @@ export const metadata: Metadata = {
     title: "BM Group | Construction, immobilier et agencement d'exception",
     description:
       "BM Group réunit EBM, BM Wood et IBM autour d'une même exigence premium.",
-    images: ["/blog/blog-3.png"],
+    images: ["/hero/hero.png"],
   },
   robots: {
     index: true,
@@ -80,7 +82,6 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      data-scroll-behavior="smooth"
       className={`${manrope.variable} ${cormorant.variable} h-full scroll-smooth antialiased`}
     >
       <body className="min-h-full flex flex-col">

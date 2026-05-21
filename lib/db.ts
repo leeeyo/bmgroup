@@ -1,9 +1,7 @@
 import { createClient, type Client } from "@libsql/client";
 
 declare global {
-  // eslint-disable-next-line no-var
   var __bmDbClient: Client | undefined;
-  // eslint-disable-next-line no-var
   var __bmDbReady: Promise<void> | undefined;
 }
 
