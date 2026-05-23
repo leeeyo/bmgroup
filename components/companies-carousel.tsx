@@ -27,14 +27,35 @@ export function CompaniesCarousel({ companies }: Props) {
   const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLElement | null>(null);
   const touchStartX = useRef(0);
+  const pauseTimer = useRef<number | null>(null);
+
+  // After a manual interaction, hold auto-advance for a beat so the slide
+  // doesn't yank out from under someone reading — critical on touch, where
+  // there's no hover to pause it.
+  const holdAutoplay = useCallback(() => {
+    setIsPaused(true);
+    if (pauseTimer.current) window.clearTimeout(pauseTimer.current);
+    pauseTimer.current = window.setTimeout(() => setIsPaused(false), 9000);
+  }, []);
 
   const goTo = useCallback(
     (next: number) => {
       setCompanyIndex(
         ((next % companies.length) + companies.length) % companies.length,
       );
+      holdAutoplay();
     },
-    [companies.length],
+    [companies.length, holdAutoplay],
+  );
+
+  const step = useCallback(
+    (dir: number) => {
+      setCompanyIndex(
+        (prev) => (prev + dir + companies.length) % companies.length,
+      );
+      holdAutoplay();
+    },
+    [companies.length, holdAutoplay],
   );
 
   useEffect(() => {
@@ -79,13 +100,10 @@ export function CompaniesCarousel({ companies }: Props) {
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       const diff = touchStartX.current - e.changedTouches[0].clientX;
-      if (Math.abs(diff) < 60) return;
-      setCompanyIndex(
-        (prev) =>
-          (prev + (diff > 0 ? 1 : -1) + companies.length) % companies.length,
-      );
+      if (Math.abs(diff) < 50) return;
+      step(diff > 0 ? 1 : -1);
     },
-    [companies.length],
+    [step],
   );
 
   return (
@@ -137,7 +155,6 @@ export function CompaniesCarousel({ companies }: Props) {
                 src={company.image}
                 alt={company.imageAlt}
                 fill
-                priority
                 quality={90}
                 sizes="100vw"
                 className="object-cover"
@@ -167,7 +184,7 @@ export function CompaniesCarousel({ companies }: Props) {
                 <p className="mt-5 max-w-2xl font-serif text-2xl leading-tight tracking-tight text-white/92 sm:mt-7 sm:text-3xl lg:text-4xl">
                   {company.eyebrow}.
                 </p>
-                <p className="mt-4 max-w-xl text-sm leading-6 text-white/68 sm:mt-5 sm:text-base sm:leading-7">
+                <p className="mt-4 max-w-xl text-[0.95rem] leading-6 text-white/75 sm:mt-5 sm:text-base sm:leading-7">
                   {company.line}
                 </p>
 
@@ -214,15 +231,13 @@ export function CompaniesCarousel({ companies }: Props) {
         </p>
       </div>
 
+      {/* Side arrows are desktop-only — on mobile they collide with the
+          headline, and swipe + the dot rail below are the natural controls. */}
       <button
         type="button"
-        onClick={() =>
-          setCompanyIndex(
-            (prev) => (prev - 1 + companies.length) % companies.length,
-          )
-        }
+        onClick={() => step(-1)}
         aria-label="Société précédente"
-        className="group absolute left-3 top-1/2 z-20 -translate-y-1/2 sm:left-6 lg:left-10"
+        className="group absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 sm:left-6 sm:block lg:left-10"
       >
         <span className="flex size-12 items-center justify-center rounded-full border border-white/20 bg-deep-green/35 backdrop-blur transition duration-300 group-hover:-translate-x-0.5 group-hover:border-gold group-hover:bg-deep-green/55 sm:size-14">
           <span
@@ -235,11 +250,9 @@ export function CompaniesCarousel({ companies }: Props) {
       </button>
       <button
         type="button"
-        onClick={() =>
-          setCompanyIndex((prev) => (prev + 1) % companies.length)
-        }
+        onClick={() => step(1)}
         aria-label="Société suivante"
-        className="group absolute right-3 top-1/2 z-20 -translate-y-1/2 sm:right-6 lg:right-10"
+        className="group absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 sm:right-6 sm:block lg:right-10"
       >
         <span className="flex size-12 items-center justify-center rounded-full border border-white/20 bg-deep-green/35 backdrop-blur transition duration-300 group-hover:translate-x-0.5 group-hover:border-gold group-hover:bg-deep-green/55 sm:size-14">
           <span
@@ -259,7 +272,7 @@ export function CompaniesCarousel({ companies }: Props) {
             onClick={() => goTo(i)}
             aria-label={`Voir ${company.name}`}
             aria-current={i === companyIndex ? "true" : undefined}
-            className="group flex flex-col items-center gap-2 py-2"
+            className="group flex min-h-11 flex-col items-center justify-center gap-2 px-2 py-2"
           >
             <span
               className={`block h-px transition-all duration-700 ease-out ${
