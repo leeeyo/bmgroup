@@ -26,6 +26,12 @@ async function isAuthenticated(token: string | undefined): Promise<boolean> {
 // Origin check for admin API state-changing requests. With SameSite=strict
 // cookies this is mostly belt-and-braces, but it protects against any future
 // cookie-policy regression.
+//
+// IMPORTANT: behind a reverse proxy the app listens on 127.0.0.1:3001, so
+// `request.nextUrl.host` does NOT equal the public host — comparing against it
+// would 403 every legitimate same-origin request. Compare the browser's Origin
+// against the host the client actually addressed, which nginx forwards via the
+// Host header (`proxy_set_header Host $host`) / X-Forwarded-Host.
 function isSafeOrigin(request: NextRequest): boolean {
   const method = request.method.toUpperCase();
   if (method === "GET" || method === "HEAD" || method === "OPTIONS") {
@@ -33,15 +39,21 @@ function isSafeOrigin(request: NextRequest): boolean {
   }
   const origin = request.headers.get("origin");
   if (!origin) {
-    // Non-browser caller or same-origin fetch without Origin header.
+    // Non-browser caller or same-origin fetch without an Origin header.
     return true;
   }
+  let originHost: string;
   try {
-    const originUrl = new URL(origin);
-    return originUrl.host === request.nextUrl.host;
+    originHost = new URL(origin).host;
   } catch {
     return false;
   }
+  const host =
+    request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  // If no host header is present we can't compare; the SameSite=strict cookie
+  // is the backstop, so don't hard-block.
+  if (!host) return true;
+  return originHost === host;
 }
 
 export async function proxy(request: NextRequest) {
