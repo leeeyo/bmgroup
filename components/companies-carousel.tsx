@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type CarouselCompany = {
@@ -10,6 +10,7 @@ export type CarouselCompany = {
   eyebrow: string;
   line: string;
   image: string;
+  mobileImage: string;
   imageAlt: string;
   url: string;
   domain: string;
@@ -19,6 +20,42 @@ export type CarouselCompany = {
 type Props = {
   companies: CarouselCompany[];
 };
+
+function CarouselBackgroundImage({ company }: { company: CarouselCompany }) {
+  const common = {
+    alt: company.imageAlt,
+    quality: 90,
+    sizes: "100vw",
+  };
+  const {
+    props: { srcSet: desktopSrcSet },
+  } = getImageProps({
+    ...common,
+    src: company.image,
+    width: 1774,
+    height: 887,
+  });
+  const {
+    props: { srcSet: mobileSrcSet, ...mobileProps },
+  } = getImageProps({
+    ...common,
+    src: company.mobileImage,
+    width: 900,
+    height: 1600,
+  });
+
+  return (
+    <picture>
+      <source media="(min-width: 640px)" srcSet={desktopSrcSet} />
+      <source media="(max-width: 639px)" srcSet={mobileSrcSet} />
+      <img
+        {...mobileProps}
+        alt={company.imageAlt}
+        className="absolute inset-0 size-full object-cover"
+      />
+    </picture>
+  );
+}
 
 export function CompaniesCarousel({ companies }: Props) {
   const prefersReducedMotion = useReducedMotion();
@@ -151,14 +188,7 @@ export function CompaniesCarousel({ companies }: Props) {
                   : { duration: 1.2, ease: "easeOut" }
               }
             >
-              <Image
-                src={company.image}
-                alt={company.imageAlt}
-                fill
-                quality={90}
-                sizes="100vw"
-                className="object-cover"
-              />
+              <CarouselBackgroundImage company={company} />
             </motion.div>
             <div className="absolute inset-0 bg-linear-to-t from-deep-green/85 from-2% via-deep-green/20 via-45% to-transparent" />
             <div className="absolute inset-0 bg-linear-to-r from-deep-green/40 via-deep-green/5 to-transparent" />
